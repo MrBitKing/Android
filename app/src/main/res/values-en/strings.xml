@@ -2,8 +2,8 @@
 <resources>
     <string name="app_name">Lab One</string>
     <string name="Hello_message">Hello world!</string>
-    <string name="ButtonText"> Button!</string>
-    <string name="widget"> Here are my widget!</string>
+    <string name="ButtonText"> I am a Button!</string>
+    <string name="widget"> here are my widget !</string>
     <string name="todo">TODO</string>
     <string name="check"> Check this out !</string>
     <string name="switch1"> Switch on / off.  </string>

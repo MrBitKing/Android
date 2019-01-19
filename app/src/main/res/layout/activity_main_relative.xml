@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="@string/widget" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_alignBottom="@+id/text1"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout="@+id/text"
+        android:text="@string/ButtonText" />
+
+    <ImageButton
+        android:id="@+id/image1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/text1"
+        android:layout_toEndOf="@+id/button1"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/flag"
+        android:text="@string/widget" />
+
+    <android.support.v7.widget.AppCompatCheckBox
+
+        android:layout_alignBottom="@+id/image1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:text="@string/check" />
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/switch1"
+        android:layout_alignBottom="@+id/image1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/switch1" />
+
+    <EditText
+        android:layout_alignBottom="@+id/image1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:hint="@string/hint1"
+        android:inputType="textPersonName" />
+
+</RelativeLayout>
