@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Lab One</string>
+    <string name="app_name1">Lab One</string>
+    <string name="app_name2">Lab Two</string>
+    <string name="app_name3">Lab Three</string>
+
+
     <string name="Hello_message">Hello world!</string>
     <string name="ButtonText"> Button!</string>
     <string name="widget"> Here are my widget!</string>
@@ -8,6 +12,23 @@
     <string name="check"> Check this out !</string>
     <string name="switch1"> Switch on / off.  </string>
     <string name="hint1"> Enter your name here  </string>
+
+    <string name="email">Enter your email address here:</string>
+    <string name="profile">Your profile</string>
+    <string name="name">Your name:</string>
+    <string name="namehint">Enter Your name</string>
+    <string name="mail">Your email:</string>
+    <string name="mailhint">Enter Your email</string>
+    <string name="pic">Your picture:</string>
+
+    <string name="pichint">Click the picture above to take a picture: </string>
+    <string name="password">Enter your password here:</string>
+    <string name="hint2">Type your email here</string>
+    <string name="hint3">Type your password here</string>
+    <string name="LogInText"> Log In</string>
+
+
+
 
 
 </resources>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Lab Un</string>
+    <string name="app_name1">Lab Un</string>
+    <string name="app_name2">Lab Deux</string>
+    <string name="app_name3">Lab Trois</string>
+
     <string name="Hello_message">Bonjour Monde!</string>
     <string name="ButtonText"> Je suis un Bouton!</string>
     <string name="widget"> je suis un widget!</string>
@@ -8,6 +11,20 @@
     <string name="check"> Regarde ca !</string>
     <string name="switch1"> Switch Oui / Non.  </string>
     <string name="hint1"> Entre ton nom ici  </string>
+
+    <string name="email">Entrez votre address Email:</string>
+    <string name="profile">Votre profile</string>
+    <string name="name">Votre nom:</string>
+    <string name="namehint">Entrez Yvotre nom</string>
+    <string name="mail">Votre email:</string>
+    <string name="mailhint">Entrez votre email</string>
+    <string name="pic">votre photo:</string>
+
+    <string name="pichint">Click le buttin ci-dessus pour prendre une photo: </string>
+    <string name="password">Entrez votre mot de passe:</string>
+    <string name="hint2">Ecrire votre email ici</string>
+    <string name="hint3">Ecrire votre mot de passe ici</string>
+    <string name="LogInText"> Entrez </string>
 
 
 </resources>
