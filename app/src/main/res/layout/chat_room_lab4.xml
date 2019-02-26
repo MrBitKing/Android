@@ -55,7 +55,9 @@
             android:layout_weight="0.5"
             android:layout_gravity="center"
 
-            android:hint="Type Here" />
+            android:hint="@string/type_here"
+            android:inputType="text"
+            android:autofillHints="" />
 
 
         <Button

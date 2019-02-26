@@ -30,8 +30,7 @@
     <string name="goChatButton"> Go to chat</string>
     <string name="send"> Send </string>
     <string name="receive"> Receive </string>
-
-
+    <string name="type_here">Type Here</string>
 
 
 </resources>

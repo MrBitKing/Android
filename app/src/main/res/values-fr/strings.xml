@@ -29,6 +29,7 @@
     <string name="goChatButton"> Allez au chat</string>
     <string name="send"> Envoyez </string>
     <string name="receive"> Recevez </string>
+    <string name="type_here">Ecrivez ici</string>
 
 
 </resources>
