@@ -26,6 +26,8 @@
     <string name="hint3">Type your password here</string>
     <string name="LogInText"> Log In</string>
 
-
+    <string name="goChatButton"> Go to chat</string>
+    <string name="send"> Send </string>
+    <string name="receive"> Receive </string>
 
 </resources>

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
+//import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +21,7 @@ public class ProfileActivity extends AppCompatActivity{
   //  private static final String ACTIVITY_NAME = "ProfileActivity";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView mImageButton;
+    private Button goToChatButton;
     EditText mail ;
     EditText pass ;
 
@@ -35,6 +36,7 @@ public class ProfileActivity extends AppCompatActivity{
         mail = (EditText) findViewById(R.id.email);
         pass = (EditText) findViewById(R.id.password);
         mImageButton = (ImageButton) findViewById(R.id.button);
+        goToChatButton = (Button) findViewById(R.id.goToChat);
 
         mail.setText(getIntent().getStringExtra("key1"));
         pass.setText(getIntent().getStringExtra("key2"));
@@ -44,6 +46,15 @@ public class ProfileActivity extends AppCompatActivity{
             public void onClick(View v) {
                 //Toast.makeText(this, "Button Clicked", Toast.LENGTH_LONG).show();
             dispatchTakePictureIntent();
+            }
+        });
+
+        goToChatButton.setOnClickListener(new OnClickListener() {
+
+            public void onClick(View v) {
+                //Toast.makeText(this, "Button Clicked", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(ProfileActivity.this, ChatRoomActivity.class);
+                ProfileActivity.this.startActivity(intent);
             }
         });
     }
