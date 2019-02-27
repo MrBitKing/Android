@@ -43,7 +43,7 @@ public class ChatRoomActivity extends AppCompatActivity {
         btnReceived = findViewById(R.id.btn_chat_receive);
         editText = (EditText) findViewById(R.id.msg_type);
         scrollRefresh = findViewById(R.id.swipeRefresh);
-        // scrollRefresh.setOnRefreshListener(R.id.swipeRefresh );
+
         // adapter = new ArrayAdapter<>(this, R.layout.left, chatDatas);
         adapt = new MessageAdapter(this, R.layout.left, chatDatas);
 
