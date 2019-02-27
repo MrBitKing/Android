@@ -9,10 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Toast;
-
+import android.support.v4.widget.SwipeRefreshLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,21 +26,29 @@ public class ChatRoomActivity extends AppCompatActivity {
     private View btnReceived;
 
     private EditText editText;
-    boolean isMine = true;
+    boolean isMine = false;
     private List<Message> chatDatas;
     private ArrayAdapter<Message> adapter;
+    private ListAdapter adapt;
+    private SwipeRefreshLayout scrollRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.chat_room_lab4);
         chatDatas = new ArrayList<>();
         listView = (ListView) findViewById(R.id.list_msg);
         btnSend = findViewById(R.id.btn_chat_send);
         btnReceived = findViewById(R.id.btn_chat_receive);
         editText = (EditText) findViewById(R.id.msg_type);
-        adapter = new MessageAdapter(this, R.layout.left, chatDatas);
-        listView.setAdapter(adapter);
+        scrollRefresh = findViewById(R.id.swipeRefresh);
+        // scrollRefresh.setOnRefreshListener(R.id.swipeRefresh );
+        // adapter = new ArrayAdapter<>(this, R.layout.left, chatDatas);
+        adapt = new MessageAdapter(this, R.layout.left, chatDatas);
+
+        listView.setAdapter(adapt);
+
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,20 +59,14 @@ public class ChatRoomActivity extends AppCompatActivity {
                 } else {
                     Message chatData = new Message(editText.getText().toString(), isMine);
                     chatDatas.add(chatData);
-                    adapter.notifyDataSetChanged();
+                    ((BaseAdapter) adapt).notifyDataSetChanged();
                     editText.setText("");
-                    // if (isMine) {
-                    //      isMine = false;
 
-                    // } else {
-                    //      isMine = true;
-                    //  }
                 }
             }
         });
 
         btnReceived.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
 
@@ -72,7 +77,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                 } else {
                     Message chatData = new Message(editText.getText().toString(), isMine);
                     chatDatas.add(chatData);
-                    adapter.notifyDataSetChanged();
+                    ((BaseAdapter) adapt).notifyDataSetChanged();
                     editText.setText("");
                     //    if (isMine) {
                     //        isMine = false;
@@ -83,7 +88,21 @@ public class ChatRoomActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        scrollRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                //write your code here.
+                //
+                scrollRefresh.setRefreshing(false);
+            }
+        });
+
     }
+
+
 }
 
 
