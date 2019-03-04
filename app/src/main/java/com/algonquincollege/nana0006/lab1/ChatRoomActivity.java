@@ -57,7 +57,9 @@ public class ChatRoomActivity extends AppCompatActivity {
                 if (editText.getText().toString().trim().equals("")) {
                     Toast.makeText(ChatRoomActivity.this, "please input text..", Toast.LENGTH_SHORT).show();
                 } else {
-                    Message chatData = new Message(editText.getText().toString(), isMine);
+                    Message chatData = new Message();
+                    chatData.setContent(editText.getText().toString());
+                    chatData.setIsMine(isMine);
                     chatDatas.add(chatData);
                     ((BaseAdapter) adapt).notifyDataSetChanged();
                     editText.setText("");
@@ -75,16 +77,13 @@ public class ChatRoomActivity extends AppCompatActivity {
                 if (editText.getText().toString().trim().equals("")) {
                     Toast.makeText(ChatRoomActivity.this, "please input text..", Toast.LENGTH_SHORT).show();
                 } else {
-                    Message chatData = new Message(editText.getText().toString(), isMine);
+                    Message chatData = new Message();
+                    chatData.setContent(editText.getText().toString());
+                    chatData.setIsMine(isMine);
                     chatDatas.add(chatData);
                     ((BaseAdapter) adapt).notifyDataSetChanged();
                     editText.setText("");
-                    //    if (isMine) {
-                    //        isMine = false;
-                    //     } else {
-//                        isMine = true;
 
-                    //  }
                 }
             }
         });

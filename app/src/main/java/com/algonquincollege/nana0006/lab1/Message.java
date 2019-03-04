@@ -1,19 +1,48 @@
 package com.algonquincollege.nana0006.lab1;
 
+
+//import android.arch.persistence.room.Entity;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+@Entity
 public class Message {
+
+    @PrimaryKey // (autoGenerate = true)
+    private long id;
     private String content;
     private boolean isMine;
 
-    public Message(String content, boolean isMine) {
+    public Message() {//{(String content, int isMine) {
         this.content = content;
         this.isMine = isMine;
     }
 
-    public String getContent() {
-        return content;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public boolean isMine() {
-        return isMine;
+    public long getId() {
+        return this.id;
     }
+
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public void setIsMine(boolean bool) {
+        this.isMine = bool;
+    }
+
+    public boolean getIsMine() {
+        return this.isMine;
+    }
+
+
 }

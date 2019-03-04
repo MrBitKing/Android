@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 //import androidx.support.annotation.Nullable;
@@ -15,13 +16,14 @@ import android.widget.TextView;
 
 //import com.algonquincollege.nana0006.lab1.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //public class MessageAdapter extends ArrayAdapter<Message> implements ListAdapter {
 public class MessageAdapter extends BaseAdapter implements ListAdapter {
 
     private Activity activity;
-    private List<Message> messages;
+    private List<Message> messages = new ArrayList<Message>();
 
     public MessageAdapter(Activity context, int resource, List<Message> objects) {
         // super(context, resource, objects);
@@ -34,16 +36,23 @@ public class MessageAdapter extends BaseAdapter implements ListAdapter {
         ViewHolder holder;
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
-        // View newView = inflater.inflate(R.layout.left, parent, false);
+        //  convertView = inflater.inflate(R.layout.left, parent, false);
         // LayoutInflater inflater = getLayoutInflater();
+        //   TextView textView = (TextView) convertView.findViewById(R.id.txt_msg);
+
+        //  Message chatData = getItem(messages.indexOf(position));
+
 
         int layoutResource = 0; // determined by view type
         Message chatData = getItem(position);
         // int viewType = getItemViewType(position);
-        if (chatData.isMine()) {
+
+        if (chatData.getIsMine()) {
             layoutResource = R.layout.left;
+
         } else {
             layoutResource = R.layout.right;
+
         }
         // if (convertView == null) {
         //    holder = (ViewHolder) convertView.getTag();
@@ -53,6 +62,7 @@ public class MessageAdapter extends BaseAdapter implements ListAdapter {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         // }
+
         //set message content
         holder.msg.setText(chatData.getContent());
         return convertView;
