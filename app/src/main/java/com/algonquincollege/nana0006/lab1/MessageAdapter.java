@@ -2,6 +2,7 @@
 package com.algonquincollege.nana0006.lab1;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +18,17 @@ import android.widget.TextView;
 
 import java.util.List;
 
-//public class MessageAdapter extends ArrayAdapter<Message> implements ListAdapter {
-public class MessageAdapter extends BaseAdapter implements ListAdapter {
+public class MessageAdapter extends ArrayAdapter<Message> implements ListAdapter {
+//public class MessageAdapter extends BaseAdapter implements ListAdapter {
 
     private Activity activity;
-    private List<Message> messages;
-
+    private List<Message> messages;//111= DatabaseHelper.getAllMessages();
+    DatabaseHelper help;
     public MessageAdapter(Activity context, int resource, List<Message> objects) {
-        // super(context, resource, objects);
+        super(context, resource, objects);
+
+        Database database = new Database(context);
+
         this.activity = context;
         this.messages = objects;
     }
@@ -35,12 +39,20 @@ public class MessageAdapter extends BaseAdapter implements ListAdapter {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
         // View newView = inflater.inflate(R.layout.left, parent, false);
-        // LayoutInflater inflater = getLayoutInflater();
+        //  LayoutInflater inflater = getLayoutInflater();
+
+        help = new DatabaseHelper(getContext());
+
+        Message chatData = getItem(position);
+        //    Message chatData = messages.getItemId(position);
+        //  Message chatData ;//= new Message();
+        // messages = help.getAllMessages();
+
+        //   int viewType = getItemViewType(position);
 
         int layoutResource = 0; // determined by view type
-        Message chatData = getItem(position);
-        // int viewType = getItemViewType(position);
-        if (chatData.isMine()) {
+
+        if (chatData.getIsMine() == 1) {
             layoutResource = R.layout.left;
         } else {
             layoutResource = R.layout.right;
@@ -52,6 +64,7 @@ public class MessageAdapter extends BaseAdapter implements ListAdapter {
             convertView = inflater.inflate(layoutResource, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
+
         // }
         //set message content
         holder.msg.setText(chatData.getContent());
@@ -68,8 +81,8 @@ public class MessageAdapter extends BaseAdapter implements ListAdapter {
 
     @Override
     public int getCount() {
-        //return super.getCount();
-        return messages.size();
+        return super.getCount();
+        //return messages.size();
     }
 
     //@androidx.annotation.Nullable
@@ -84,7 +97,6 @@ public class MessageAdapter extends BaseAdapter implements ListAdapter {
         //  return super.getItemId(position);
         return (long) position;
     }
-
 
     @Override
     public int getItemViewType(int position) {

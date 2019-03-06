@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -16,6 +17,9 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 import android.support.v4.widget.SwipeRefreshLayout;
+
+//import com.facebook.stetho.Stetho;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +29,11 @@ public class ChatRoomActivity extends AppCompatActivity {
     private View btnSend;
     private View btnReceived;
 
+    DatabaseHelper helper;
+    Database database;
+
     private EditText editText;
-    boolean isMine = false;
+    int isMine = 0;
     private List<Message> chatDatas;
     private ArrayAdapter<Message> adapter;
     private ListAdapter adapt;
@@ -37,7 +44,9 @@ public class ChatRoomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.chat_room_lab4);
-        chatDatas = new ArrayList<>();
+        helper = new DatabaseHelper(getApplicationContext());
+        helper.open();
+        chatDatas = helper.getAllMessages();//new ArrayList<>();
         listView = (ListView) findViewById(R.id.list_msg);
         btnSend = findViewById(R.id.btn_chat_send);
         btnReceived = findViewById(R.id.btn_chat_receive);
@@ -45,55 +54,68 @@ public class ChatRoomActivity extends AppCompatActivity {
         scrollRefresh = findViewById(R.id.swipeRefresh);
 
         // adapter = new ArrayAdapter<>(this, R.layout.left, chatDatas);
-        adapt = new MessageAdapter(this, R.layout.left, chatDatas);
+        adapt = new MessageAdapter(this, R.layout.chat_room_lab4, chatDatas);  //////////chtdatas ???
 
         listView.setAdapter(adapt);
+        // database = Database.(getApplicationContext());
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isMine = true;
+                isMine = 1;
 
                 if (editText.getText().toString().trim().equals("")) {
                     Toast.makeText(ChatRoomActivity.this, "please input text..", Toast.LENGTH_SHORT).show();
                 } else {
-                    Message chatData = new Message(editText.getText().toString(), isMine);
+                    Message chatData = new Message();
+                    chatData.setContent(editText.getText().toString());
+                    chatData.setIsMine(isMine);
                     chatDatas.add(chatData);
+
+                    helper = new DatabaseHelper(ChatRoomActivity.this);
+
+                    helper.open();
+                    helper.createMessage(chatData.getContent(), chatData.getIsMine());
+                    helper.close();
+
                     ((BaseAdapter) adapt).notifyDataSetChanged();
                     editText.setText("");
-
                 }
+
             }
+
         });
 
         btnReceived.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                isMine = false;
+                isMine = 0;
 
                 if (editText.getText().toString().trim().equals("")) {
                     Toast.makeText(ChatRoomActivity.this, "please input text..", Toast.LENGTH_SHORT).show();
                 } else {
-                    Message chatData = new Message(editText.getText().toString(), isMine);
+                    Message chatData = new Message();
+                    chatData.setContent(editText.getText().toString());
+                    chatData.setIsMine(isMine);
                     chatDatas.add(chatData);
+
+                    helper = new DatabaseHelper(ChatRoomActivity.this);
+
+                    helper.open();
+                    helper.createMessage(chatData.getContent(), chatData.getIsMine());
+                    helper.close();
+
                     ((BaseAdapter) adapt).notifyDataSetChanged();
                     editText.setText("");
-                    //    if (isMine) {
-                    //        isMine = false;
-                    //     } else {
-//                        isMine = true;
-
-                    //  }
                 }
             }
         });
 
+        //Stetho.initializeWithDefaults(this);
 
         scrollRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
                 //write your code here.
                 //
                 scrollRefresh.setRefreshing(false);
