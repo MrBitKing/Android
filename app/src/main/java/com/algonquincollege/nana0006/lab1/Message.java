@@ -1,7 +1,5 @@
+
 package com.algonquincollege.nana0006.lab1;
-
-
-//import android.arch.persistence.room.Entity;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
@@ -14,7 +12,7 @@ public class Message {
     private String content;
     private int isMine;
 
-    public Message() {//{(String content, int isMine) {
+    public Message() {
         this.content = content;
         this.isMine = isMine;
     }
@@ -42,6 +40,5 @@ public class Message {
     public int getIsMine() {
         return this.isMine;
     }
-
 
 }

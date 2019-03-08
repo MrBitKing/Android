@@ -10,27 +10,24 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-//import androidx.support.annotation.Nullable;
-//import androidx.*;
-
-
-//import com.algonquincollege.nana0006.lab1.R;
-
 import java.util.List;
 
-public class MessageAdapter extends ArrayAdapter<Message> implements ListAdapter {
-//public class MessageAdapter extends BaseAdapter implements ListAdapter {
+//public class MessageAdapter extends ArrayAdapter<Message> implements ListAdapter {
+public class MessageAdapter extends BaseAdapter implements ListAdapter {
 
     private Activity activity;
-    private List<Message> messages;//111= DatabaseHelper.getAllMessages();
+    private List<Message> messages;
     DatabaseHelper help;
+
     public MessageAdapter(Activity context, int resource, List<Message> objects) {
-        super(context, resource, objects);
+
+        super();
+        // super(context, resource, objects);  //required for ArrayAdapt
 
         Database database = new Database(context);
-
         this.activity = context;
         this.messages = objects;
+        help = new DatabaseHelper(context);
     }
 
     @Override
@@ -38,17 +35,11 @@ public class MessageAdapter extends ArrayAdapter<Message> implements ListAdapter
         ViewHolder holder;
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
-        // View newView = inflater.inflate(R.layout.left, parent, false);
+        // View newView = inflater.inflate(R.layout.left, parent, false);  cant use this ??
         //  LayoutInflater inflater = getLayoutInflater();
-
-        help = new DatabaseHelper(getContext());
+        //  help = new DatabaseHelper(getContext());  // cant get context with baseadpter here ??
 
         Message chatData = getItem(position);
-        //    Message chatData = messages.getItemId(position);
-        //  Message chatData ;//= new Message();
-        // messages = help.getAllMessages();
-
-        //   int viewType = getItemViewType(position);
 
         int layoutResource = 0; // determined by view type
 
@@ -58,14 +49,14 @@ public class MessageAdapter extends ArrayAdapter<Message> implements ListAdapter
             layoutResource = R.layout.right;
         }
         // if (convertView == null) {
-        //    holder = (ViewHolder) convertView.getTag();
-        // } else {
+        //     holder = (ViewHolder) convertView.getTag();
+        //  } else {
 
             convertView = inflater.inflate(layoutResource, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
 
-        // }
+        //  }
         //set message content
         holder.msg.setText(chatData.getContent());
         return convertView;
@@ -78,14 +69,12 @@ public class MessageAdapter extends ArrayAdapter<Message> implements ListAdapter
         return 2;
     }
 
-
     @Override
     public int getCount() {
-        return super.getCount();
-        //return messages.size();
+        // return super.getCount();
+        return messages.size();
     }
 
-    //@androidx.annotation.Nullable
     @Override
     public Message getItem(int position) {
         //return super.getItem(position);
@@ -94,8 +83,8 @@ public class MessageAdapter extends ArrayAdapter<Message> implements ListAdapter
 
     @Override
     public long getItemId(int position) {
-        //  return super.getItemId(position);
-        return (long) position;
+        // return super.getItemId(position);
+        return messages.get(position).getId();
     }
 
     @Override
@@ -106,7 +95,6 @@ public class MessageAdapter extends ArrayAdapter<Message> implements ListAdapter
 
     private class ViewHolder {
         private TextView msg;
-
         public ViewHolder(View v) {
             msg = (TextView) v.findViewById(R.id.txt_msg);
         }

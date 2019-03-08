@@ -2,12 +2,10 @@ package com.algonquincollege.nana0006.lab1;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -18,7 +16,6 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 import android.support.v4.widget.SwipeRefreshLayout;
 
-//import com.facebook.stetho.Stetho;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +42,8 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         setContentView(R.layout.chat_room_lab4);
         helper = new DatabaseHelper(getApplicationContext());
+        // database = Database.(getApplicationContext()); //////  same
+
         helper.open();
         chatDatas = helper.getAllMessages();//new ArrayList<>();
         listView = (ListView) findViewById(R.id.list_msg);
@@ -57,7 +56,6 @@ public class ChatRoomActivity extends AppCompatActivity {
         adapt = new MessageAdapter(this, R.layout.chat_room_lab4, chatDatas);  //////////chtdatas ???
 
         listView.setAdapter(adapt);
-        // database = Database.(getApplicationContext());
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,15 +71,13 @@ public class ChatRoomActivity extends AppCompatActivity {
                     chatDatas.add(chatData);
 
                     helper = new DatabaseHelper(ChatRoomActivity.this);
-
-                    helper.open();
+                    helper.write();
                     helper.createMessage(chatData.getContent(), chatData.getIsMine());
                     helper.close();
 
                     ((BaseAdapter) adapt).notifyDataSetChanged();
                     editText.setText("");
                 }
-
             }
 
         });
@@ -100,8 +96,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                     chatDatas.add(chatData);
 
                     helper = new DatabaseHelper(ChatRoomActivity.this);
-
-                    helper.open();
+                    helper.write();
                     helper.createMessage(chatData.getContent(), chatData.getIsMine());
                     helper.close();
 
@@ -111,47 +106,12 @@ public class ChatRoomActivity extends AppCompatActivity {
             }
         });
 
-        //Stetho.initializeWithDefaults(this);
-
         scrollRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //write your code here.
-                //
                 scrollRefresh.setRefreshing(false);
             }
         });
-
-    }
-
-
-}
-
-
-/*public class ChatRoomActivity extends AppCompatActivity {
-
-    public static final String mypreference = "mypref";
-    public static final String Name = "nameKey";
-    public static final String Email = "emailKey";
-    EditText txtUsername, txtPassword, txtEmail;
-    Button buttonReg2;
-
-    // String Password ;
-    //String email ;
-
-    SharedPreferences.Editor editor;
-    SharedPreferences sharedPreferences;
-
-    // String name = txtUsername.getText().toString();
-
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.chat_room_lab4);
-
-
     }
 
     @Override
@@ -172,7 +132,6 @@ public class ChatRoomActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
     }
 
     @Override
@@ -184,4 +143,4 @@ public class ChatRoomActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
-}*/
+}
