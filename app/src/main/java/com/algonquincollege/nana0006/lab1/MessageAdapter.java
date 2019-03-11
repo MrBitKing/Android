@@ -17,7 +17,7 @@ public class MessageAdapter extends BaseAdapter implements ListAdapter {
 
     private Activity activity;
     private List<Message> messages;
-    DatabaseHelper help;
+    private DatabaseHelper help;
 
     public MessageAdapter(Activity context, int resource, List<Message> objects) {
 
@@ -41,7 +41,7 @@ public class MessageAdapter extends BaseAdapter implements ListAdapter {
 
         Message chatData = getItem(position);
 
-        int layoutResource = 0; // determined by view type
+        int layoutResource; // determined by view type
 
         if (chatData.getIsMine() == 1) {
             layoutResource = R.layout.left;
@@ -55,7 +55,6 @@ public class MessageAdapter extends BaseAdapter implements ListAdapter {
             convertView = inflater.inflate(layoutResource, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
-
         //  }
         //set message content
         holder.msg.setText(chatData.getContent());
@@ -95,7 +94,8 @@ public class MessageAdapter extends BaseAdapter implements ListAdapter {
 
     private class ViewHolder {
         private TextView msg;
-        public ViewHolder(View v) {
+
+        private ViewHolder(View v) {
             msg = (TextView) v.findViewById(R.id.txt_msg);
         }
     }

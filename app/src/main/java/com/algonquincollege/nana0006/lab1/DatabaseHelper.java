@@ -110,11 +110,14 @@ public class DatabaseHelper {
         message.setContent(cursor.getString(1));
         message.setIsMine(cursor.getInt(2));
 
-        Log.d(TAG, message.getContent());
-        Log.d(TAG, ("column " + cursor.getColumnCount()));
+        Log.d(TAG, "message Id " + message.getId());
+        Log.d(TAG, "Message content " + message.getContent());
+        Log.d(TAG, "Is mine ? " + message.getIsMine());
+
+        Log.d(TAG, ("number of column " + cursor.getColumnCount()));
         Log.d(TAG, ("version " + Database.DATABASE_VERSION));
-        //  Log.d(TAG, ("position"+cursor.getColumnName(cursor.getPosition())));
-        Log.d(TAG, ("cursor" + cursor.toString()));
+//        Log.d(TAG, ("column name "+cursor.getColumnName(cursor.getPosition())));
+        //  Log.d(TAG, ("cursor Id " + cursor.toString()));
 
         return message;
     }
