@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+        android:id="@+id/choice1"
+        android:icon="@drawable/icons8menu100"
+        android:title="@string/send"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/choice2"
+        android:icon="@drawable/icons8unreadmessagesfemale50"
+        android:title="@string/send"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/choice3"
+        android:icon="@drawable/icons8girlandsmartphone50"
+        android:title="@string/send"
+        app:showAsAction="always" />
+
+
+    <!-- Settings, should always be in the overflow -->
+    <item
+        android:id="@+id/action_overflow"
+        android:icon="@drawable/icons8catprofile48"
+        android:title="@string/Hello_message"
+        app:showAsAction="never" />
+
+</menu>

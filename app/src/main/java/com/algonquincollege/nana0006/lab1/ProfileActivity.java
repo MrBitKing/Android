@@ -22,11 +22,10 @@ public class ProfileActivity extends AppCompatActivity{
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView mImageButton;
     private Button goToChatButton;
-    EditText mail ;
-    EditText pass ;
+    private Button goToToolBar;
 
-
-
+    private EditText mail;
+    private EditText pass;
 
 
     @Override
@@ -37,6 +36,7 @@ public class ProfileActivity extends AppCompatActivity{
         pass = (EditText) findViewById(R.id.password);
         mImageButton = (ImageButton) findViewById(R.id.button);
         goToChatButton = (Button) findViewById(R.id.goToChat);
+        goToToolBar = (Button) findViewById(R.id.goToToolBar);
 
         mail.setText(getIntent().getStringExtra("key1"));
         pass.setText(getIntent().getStringExtra("key2"));
@@ -55,6 +55,15 @@ public class ProfileActivity extends AppCompatActivity{
                 //Toast.makeText(this, "Button Clicked", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(ProfileActivity.this, ChatRoomActivity.class);
                 ProfileActivity.this.startActivity(intent);
+            }
+        });
+
+        goToToolBar.setOnClickListener(new OnClickListener() {
+
+            public void onClick(View v) {
+                //Toast.makeText(this, "Button Clicked", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(ProfileActivity.this, TestToolbar.class);
+                startActivity(intent);
             }
         });
     }

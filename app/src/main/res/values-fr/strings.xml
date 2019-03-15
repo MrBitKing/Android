@@ -31,5 +31,7 @@
     <string name="receive"> Recevez </string>
     <string name="type_here">Ecrivez ici</string>
 
+    <string name="goToToolBar">ToolBar</string>
+
 
 </resources>
