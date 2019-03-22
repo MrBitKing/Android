@@ -34,6 +34,10 @@ public class WeatherForecast extends AppCompatActivity {
     private TextView currentTempText;
     private TextView minTempText;
     private TextView maxTempText;
+    private TextView targetLocation;
+    private TextView wind;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,8 @@ public class WeatherForecast extends AppCompatActivity {
         currentTempText = (TextView) findViewById(R.id.currentWeather);
         minTempText = (TextView) findViewById(R.id.minTemp);
         maxTempText = (TextView) findViewById(R.id.maxTemp);
+        targetLocation = (TextView) findViewById(R.id.city);
+        wind = (TextView) findViewById(R.id.wind);
         progress = (ProgressBar) findViewById(R.id.progressBar);
         progress.setVisibility(View.VISIBLE);
         progress.setMax(100);
@@ -59,6 +65,10 @@ public class WeatherForecast extends AppCompatActivity {
         private String currTemp;
         private String currWeather;
         private Bitmap bitmap;
+        private String currLocation;
+        private String windspeed;
+
+
 
         @Override
         protected String doInBackground(String... args) {
@@ -95,9 +105,11 @@ public class WeatherForecast extends AppCompatActivity {
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                 factory.setNamespaceAware(true);
                 XmlPullParser parser = factory.newPullParser();
+                parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
                 parser.setInput(stream, null);
-                int eventType = parser.getEventType();
 
+
+                int eventType = parser.getEventType();
                 while (eventType != XmlPullParser.END_DOCUMENT) {
                     if (eventType != XmlPullParser.START_TAG) {
                         eventType = parser.next();
@@ -112,6 +124,13 @@ public class WeatherForecast extends AppCompatActivity {
                             publishProgress(75);
                         } else if (parser.getName().equals("weather")) {
                             currWeather = parser.getAttributeValue(null, "icon");
+                        } else if (parser.getName().equals("city")) {
+                            currLocation = parser.getAttributeValue(null, "name");
+                        } else if (parser.getName().equals("wind")) {
+                            eventType = parser.next();
+                            if (parser.getName().equals("speed")) {
+                                windspeed = parser.getAttributeValue(null, "value");
+                            }
                         }
                         eventType = parser.next();
                     }
@@ -157,7 +176,6 @@ public class WeatherForecast extends AppCompatActivity {
 
             super.onProgressUpdate(value);
             progress.setVisibility(View.VISIBLE);
-            //   progress.getProgress();
             progress.setProgress(value[0]);
             if (value[0] == 100) {
 
@@ -167,9 +185,16 @@ public class WeatherForecast extends AppCompatActivity {
         @Override
         protected void onPostExecute(String args) {
             progress.setVisibility(View.INVISIBLE);
-            currentTempText.setText("Current: " + currTemp + "C");
-            minTempText.setText("Min: " + minTemp + "C");
-            maxTempText.setText("Max: " + maxTemp + "C");
+            currentTempText.setText("Current: " + currTemp + " C");
+            minTempText.setText("Min: " + minTemp + " C");
+            maxTempText.setText("Max: " + maxTemp + " C");
+            wind.setText("Wind Speed: " + windspeed + " KM/H");
+            targetLocation.setText("Weather report for " + currLocation);
+
+            //  currentTempText.setText("Current " + String.format("%.1f", Double.parseDouble(currTemp)) + "\u00b0");
+            //  minTempText.setText("Min " + String.format("%.1f", Double.parseDouble(minTemp)) + "\u00b0");
+            //  maxTempText.setText("Max " + String.format("%.1f", Double.parseDouble(maxTemp)) + "\u00b0");
+            // weatherImageView.setImageBitmap(weatherImage);
             weatherImage.setImageBitmap(bitmap);
         }
 
