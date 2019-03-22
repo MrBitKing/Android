@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 
 public class ProfileActivity extends AppCompatActivity{
@@ -22,6 +23,9 @@ public class ProfileActivity extends AppCompatActivity{
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView mImageButton;
     private Button goToChatButton;
+    private Button goToWeather;
+
+
     EditText mail ;
     EditText pass ;
 
@@ -37,6 +41,8 @@ public class ProfileActivity extends AppCompatActivity{
         pass = (EditText) findViewById(R.id.password);
         mImageButton = (ImageButton) findViewById(R.id.button);
         goToChatButton = (Button) findViewById(R.id.goToChat);
+        goToChatButton = (Button) findViewById(R.id.goToWeather);
+
 
         mail.setText(getIntent().getStringExtra("key1"));
         pass.setText(getIntent().getStringExtra("key2"));
@@ -52,8 +58,15 @@ public class ProfileActivity extends AppCompatActivity{
         goToChatButton.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
-                //Toast.makeText(this, "Button Clicked", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(ProfileActivity.this, ChatRoomActivity.class);
+                ProfileActivity.this.startActivity(intent);
+            }
+        });
+
+        goToChatButton.setOnClickListener(new OnClickListener() {
+
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, WeatherForecast.class);
                 ProfileActivity.this.startActivity(intent);
             }
         });
