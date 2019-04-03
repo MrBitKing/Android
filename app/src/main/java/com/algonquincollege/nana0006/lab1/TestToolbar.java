@@ -99,7 +99,7 @@ public class TestToolbar extends AppCompatActivity {
                     }
                 });
 
-                builder.show(); //.cerete.show
+                builder.show();
                 return true;
 
             case R.id.choice3:
