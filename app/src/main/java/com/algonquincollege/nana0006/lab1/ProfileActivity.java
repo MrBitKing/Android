@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
 //import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.view.View;
@@ -17,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 
-public class ProfileActivity extends AppCompatActivity{
+public class ProfileActivity extends FragmentActivity {
 
   //  private static final String ACTIVITY_NAME = "ProfileActivity";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -41,7 +44,7 @@ public class ProfileActivity extends AppCompatActivity{
         pass = (EditText) findViewById(R.id.password);
         mImageButton = (ImageButton) findViewById(R.id.button);
         goToChatButton = (Button) findViewById(R.id.goToChat);
-        goToChatButton = (Button) findViewById(R.id.goToWeather);
+        goToWeather = (Button) findViewById(R.id.goToWeather);
 
 
         mail.setText(getIntent().getStringExtra("key1"));
@@ -63,14 +66,17 @@ public class ProfileActivity extends AppCompatActivity{
             }
         });
 
-        goToChatButton.setOnClickListener(new OnClickListener() {
+        goToWeather.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
                 Intent intent = new Intent(ProfileActivity.this, WeatherForecast.class);
                 ProfileActivity.this.startActivity(intent);
             }
         });
+
+
     }
+
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
