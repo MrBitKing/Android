@@ -27,7 +27,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChatRoomActivity extends FragmentActivity {
+public class ChatRoomActivity extends AppCompatActivity {
+
+    public static final String ITEM_SELECTED = "ITEM";
+    public static final String ITEM_POSITION = "POSITION";
+    public static final String ITEM_ID = "ID";
+    public static final int EMPTY_ACTIVITY = 345;
+
     private ListView listView;
     private View btnSend;
     private View btnReceived;
@@ -45,6 +51,13 @@ public class ChatRoomActivity extends FragmentActivity {
     private boolean mIsDualPane = false;
     private boolean mTwoPane;
 
+    //  private boolean isTablet = false;
+    private Bundle dataFromActivity;
+    private long id;
+
+
+    // public void setTablet(boolean tablet) { isTablet = tablet; }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +69,7 @@ public class ChatRoomActivity extends FragmentActivity {
 
         //   val fragmentBView = findViewById<View>(R.id.fragmentb)
 
-        if (savedInstanceState == null) {
+   /*     if (savedInstanceState == null) {
             // Let's first dynamically add a fragment into a frame container
             getSupportFragmentManager().beginTransaction().
                     replace(R.id.activity_chat_window, new MessageFragmentA(), "SOMETAG").
@@ -64,7 +77,7 @@ public class ChatRoomActivity extends FragmentActivity {
             // Now later we can lookup the fragment by tag
             MessageFragmentA fragmentDemo = (MessageFragmentA)
                     getSupportFragmentManager().findFragmentByTag("SOMETAG");
-        }
+        }*/
 
         helper = new DatabaseHelper(getApplicationContext());
         // database = Database.(getApplicationContext()); //////  same
@@ -77,13 +90,43 @@ public class ChatRoomActivity extends FragmentActivity {
         editText = (EditText) findViewById(R.id.msg_type);
         scrollRefresh = findViewById(R.id.swipeRefresh);
 
+        final boolean isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
+
         // adapter = new ArrayAdapter<>(this, R.layout.left, chatDatas);
         adapt = new MessageAdapter(this, R.layout.chat_room_lab4, chatDatas);  //////////chtdatas ???
+        // adapt = new MessageAdapter(this, android.R.layout.simple_list_item_1, chatDatas);  //////////chtdatas ???
 
 
         listView.setAdapter(adapt);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> list, View item, int position, long id) {
+
+                Bundle dataToPass = new Bundle();
+                dataToPass.putString(ITEM_SELECTED, chatDatas.get(position).getContent());
+                dataToPass.putInt(ITEM_POSITION, position);
+                dataToPass.putLong(ITEM_ID, id);
+
+                if (isTablet) {
+                    MessageDetails dFragment = new MessageDetails(); //add a DetailFragment
+                    dFragment.setArguments(dataToPass); //pass it a bundle for information
+                    dFragment.setTablet(true);  //tell the fragment if it's running on a tablet or not
+                    ChatRoomActivity.this.getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(R.id.fragmentLocation, dFragment) //Add the fragment in FrameLayout
+                            .addToBackStack("AnyName") //make the back button undo the transaction
+                            .commit(); //actually load the fragment.
+                } else //isPhone
+                {
+                    Intent nextActivity = new Intent(ChatRoomActivity.this, EmptyActivity.class);
+                    nextActivity.putExtras(dataToPass); //send data to next activity
+                    ChatRoomActivity.this.startActivityForResult(nextActivity, EMPTY_ACTIVITY); //make the transition
+                }
+            }
+        });
+
+     /*   listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Message item = (Message) adapt.getItem(position);
@@ -93,7 +136,7 @@ public class ChatRoomActivity extends FragmentActivity {
                 startActivity(intent);
             }
 
-        });
+        });*/
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +165,7 @@ public class ChatRoomActivity extends FragmentActivity {
                         MessageFragmentB fragment = new MessageFragmentB();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.message_detail_container, fragment)
+                                .replace(R.id.fragmentLocation, fragment)
                                 .commit();
                     } else {
                         Context context = v.getContext();
@@ -167,7 +210,7 @@ public class ChatRoomActivity extends FragmentActivity {
             }
         });
 
-        if (findViewById(R.id.message_detail_container) != null) {
+        if (findViewById(R.id.fragmentLocation) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
             // If this view is present, then the

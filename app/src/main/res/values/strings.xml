@@ -31,6 +31,7 @@
     <string name="send"> Send </string>
     <string name="receive"> Receive </string>
     <string name="type_here">Type Here</string>
+    <string name="delete">Delete</string>
 
 
 </resources>

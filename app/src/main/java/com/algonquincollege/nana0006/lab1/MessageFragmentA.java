@@ -10,6 +10,14 @@ public class MessageFragmentA extends Fragment {
     // The onCreateView method is called when Fragment should create its View object hierarchy,
     // either dynamically or via XML layout inflation.
 
+    private boolean isTablet;
+    private Bundle dataFromActivity;
+    private long id;
+
+    public void setTablet(boolean tablet) {
+        isTablet = tablet;
+    }
+
     public MessageFragmentA() {
 
     }
@@ -23,7 +31,7 @@ public class MessageFragmentA extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
-        return inflater.inflate(R.layout.fragmenta, parent, false);
+        return inflater.inflate(R.layout.chat_room_lab4, parent, false);
     }
 
     // This event is triggered soon after onCreateView().
