@@ -106,7 +106,7 @@ public class WeatherForecast extends AppCompatActivity {
                 factory.setNamespaceAware(true);
                 XmlPullParser parser = factory.newPullParser();
                 parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-                parser.setInput(stream, null);
+                parser.setInput(stream, null);  //UTF_8
 
 
                 int eventType = parser.getEventType();

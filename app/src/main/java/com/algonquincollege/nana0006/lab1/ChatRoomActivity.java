@@ -9,12 +9,14 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -33,19 +35,20 @@ public class ChatRoomActivity extends AppCompatActivity {
     public static final String ITEM_POSITION = "POSITION";
     public static final String ITEM_ID = "ID";
     public static final int EMPTY_ACTIVITY = 345;
+    public static int selected;
+
 
     private ListView listView;
-    private View btnSend;
-    private View btnReceived;
+    private Button btnSend;
+    private Button btnReceived;
 
     DatabaseHelper helper;
-    Database database;
 
     private EditText editText;
     int isMine = 0;
-    private List<Message> chatDatas;
+    public static List<Message> chatDatas;
     private ArrayAdapter<Message> adapter;
-    private ListAdapter adapt;
+    private MessageAdapter adapt;
     private SwipeRefreshLayout scrollRefresh;
 
     private boolean mIsDualPane = false;
@@ -53,7 +56,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     //  private boolean isTablet = false;
     private Bundle dataFromActivity;
-    private long id;
+    private int id;
 
 
     // public void setTablet(boolean tablet) { isTablet = tablet; }
@@ -85,16 +88,16 @@ public class ChatRoomActivity extends AppCompatActivity {
         helper.open();
         chatDatas = helper.getAllMessages();//new ArrayList<>();
         listView = (ListView) findViewById(R.id.list_msg);
-        btnSend = findViewById(R.id.btn_chat_send);
-        btnReceived = findViewById(R.id.btn_chat_receive);
+        btnSend = (Button) findViewById(R.id.btn_chat_send);
+//        btnReceived = (Button) findViewById(R.id.);
         editText = (EditText) findViewById(R.id.msg_type);
         scrollRefresh = findViewById(R.id.swipeRefresh);
 
-        final boolean isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
+        final boolean isTablet = findViewById(R.id.message_detail_container) != null; //check if the FrameLayout is loaded
 
-        // adapter = new ArrayAdapter<>(this, R.layout.left, chatDatas);
-        adapt = new MessageAdapter(this, R.layout.chat_room_lab4, chatDatas);  //////////chtdatas ???
-        // adapt = new MessageAdapter(this, android.R.layout.simple_list_item_1, chatDatas);  //////////chtdatas ???
+        // adapter = new MessageAdapter<>(this, R.layout.left, chatDatas);
+        // adapt = new ArrayAdapter(this, R.layout.chat_room_lab4, chatDatas);  //////////chtdatas ???
+        adapt = new MessageAdapter(this, android.R.layout.simple_list_item_1, chatDatas);  //////////chtdatas ???
 
 
         listView.setAdapter(adapt);
@@ -107,21 +110,23 @@ public class ChatRoomActivity extends AppCompatActivity {
                 dataToPass.putString(ITEM_SELECTED, chatDatas.get(position).getContent());
                 dataToPass.putInt(ITEM_POSITION, position);
                 dataToPass.putLong(ITEM_ID, id);
-
+                selected = position;
                 if (isTablet) {
-                    MessageDetails dFragment = new MessageDetails(); //add a DetailFragment
+                    MessageFragmentB dFragment = new MessageFragmentB(); //add a DetailFragment
                     dFragment.setArguments(dataToPass); //pass it a bundle for information
                     dFragment.setTablet(true);  //tell the fragment if it's running on a tablet or not
                     ChatRoomActivity.this.getSupportFragmentManager()
                             .beginTransaction()
-                            .add(R.id.fragmentLocation, dFragment) //Add the fragment in FrameLayout
-                            .addToBackStack("AnyName") //make the back button undo the transaction
+                            .replace(R.id.message_detail_container, dFragment) //Add the fragment in FrameLayout
+                            //.addToBackStack("AnyName") //make the back button undo the transaction
                             .commit(); //actually load the fragment.
                 } else //isPhone
                 {
-                    Intent nextActivity = new Intent(ChatRoomActivity.this, EmptyActivity.class);
+                    Intent nextActivity = new Intent(ChatRoomActivity.this, MessageDetails.class);
                     nextActivity.putExtras(dataToPass); //send data to next activity
                     ChatRoomActivity.this.startActivityForResult(nextActivity, EMPTY_ACTIVITY); //make the transition
+                    //ChatRoomActivity.this.startActivity(nextActivity);
+
                 }
             }
         });
@@ -158,8 +163,8 @@ public class ChatRoomActivity extends AppCompatActivity {
 
                     ((BaseAdapter) adapt).notifyDataSetChanged();
                     editText.setText("");
-
-                    if (mTwoPane) {
+/*
+                    if (isTablet) {  //twopane?
                         Bundle arguments = new Bundle();
                         //arguments.putString(MessageFragmentA.class, holder.mItem.id);
                         MessageFragmentB fragment = new MessageFragmentB();
@@ -169,39 +174,22 @@ public class ChatRoomActivity extends AppCompatActivity {
                                 .commit();
                     } else {
                         Context context = v.getContext();
-                        Intent intent = new Intent(context, ChatRoomActivity.class);
-                        // intent.putExtra(MessageDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        Intent intent = new Intent(context, MessageDetails.class);
+                        // intent.putExtra(MessageDetails.ARG_ITEM_ID, helper.mItem.id);
 
                         context.startActivity(intent);
-                    }
+                    }*/
                 }
             }
 
         });
 
-        btnReceived.setOnClickListener(new View.OnClickListener() {
+/*        btnReceived.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isMine = 0;
-
-                if (editText.getText().toString().trim().equals("")) {
-                    Toast.makeText(ChatRoomActivity.this, "please input text..", Toast.LENGTH_SHORT).show();
-                } else {
-                    Message chatData = new Message();
-                    chatData.setContent(editText.getText().toString());
-                    chatData.setIsMine(isMine);
-                    chatDatas.add(chatData);
-
-                    helper = new DatabaseHelper(ChatRoomActivity.this);
-                    helper.write();
-                    helper.createMessage(chatData.getContent(), chatData.getIsMine());
-                    helper.close();
-
-                    ((BaseAdapter) adapt).notifyDataSetChanged();
-                    editText.setText("");
-                }
+                deleteMessageId(id);
             }
-        });
+        });*/
 
         scrollRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -217,6 +205,13 @@ public class ChatRoomActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+    }
+
+
+    public void deleteMessageId(int id) {
+        Log.i("Delete this message:", " id=" + id);
+        chatDatas.remove(id);
+        adapt.notifyDataSetChanged();
     }
 /*
     @Override
@@ -260,6 +255,14 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        //  super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == EMPTY_ACTIVITY) {
+            if (resultCode == RESULT_OK) //if you hit the delete button instead of back button
+            {
+                long id = data.getLongExtra(ITEM_ID, 0);
+                deleteMessageId((int) id);
+            }
+        }
     }
 }

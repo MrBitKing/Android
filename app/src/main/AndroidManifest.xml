@@ -20,7 +20,7 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ChatRoomActivity" />
         <activity android:name=".EmptyActivity"></activity>
-
+        <activity android:name=".MessageDetails"></activity>
 
         <activity android:name=".MainActivity">
             <intent-filter>

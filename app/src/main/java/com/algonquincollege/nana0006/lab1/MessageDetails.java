@@ -1,5 +1,71 @@
 package com.algonquincollege.nana0006.lab1;
 
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.List;
+
+public class MessageDetails extends AppCompatActivity {
+
+    public static final String ITEM_SELECTED = "ITEM";
+    public static final String ITEM_POSITION = "POSITION";
+    public static final String ITEM_ID = "ID";
+    public static final int EMPTY_ACTIVITY = 345;
+
+    private Button btnDelete;
+    static DatabaseHelper helper;
+    static List<Message> chatDatas;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.message_details);
+
+        btnDelete = (Button) findViewById(R.id.deleteButton);
+        helper = new DatabaseHelper(getApplicationContext());
+        helper.open();
+        chatDatas = helper.getAllMessages();//new ArrayList<>();
+
+
+        final Bundle dataToPass = getIntent().getExtras(); //get the data that was passed from FragmentExample
+
+        //This is copied directly from FragmentExample.java lines 47-54
+        MessageFragmentB dFragment = new MessageFragmentB();
+        dFragment.setArguments(dataToPass); //pass data to the the fragment
+        dFragment.setTablet(false); //tell the Fragment that it's on a phone.
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragmentLocation, dFragment)
+                //.addToBackStack("AnyName")
+                .commit();
+
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                //Intent intent = new Intent(MessageDetails.this, WeatherForecast.class);
+                //  MessageDetails.this.startActivity(intent);
+                // dataToPass.
+                Bundle bundle = getIntent().getExtras();
+                helper.deleteMessage(chatDatas.get(bundle.getInt(ITEM_POSITION)));
+                // helper.close();
+
+            }
+        });
+    }
+
+
+}
+
+
+/*
+package com.algonquincollege.nana0006.lab1;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -72,4 +138,4 @@ public class MessageDetails extends Fragment {
         });
         return result;
     }
-}
+}*/
